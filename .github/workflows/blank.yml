@@ -1,44 +1,36 @@
-name: CI
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
+name: Newman API Tests
+on: 
+  workflow_dispatch:
+jobs: 
+  test: 
+    defaults: 
+      run: 
+        working-directory: ./assignment3_204
     environment: staging
-    steps:
-      - name: Checkout repository
+    name: "Run tests"
+    runs-on: ubuntu-latest
+    steps: 
+      - 
         uses: actions/checkout@v2
-
-      - name: Set up Node.js
+      - 
         uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-
-      - name: Install Newman and reporter
-        run: |
-          npm install -g newman
-          npm install -g newman-reporter-htmlextra
-
-      - name: Change working directory
-        run: cd./assignment3_204
-
-      - name: Run Newman tests
-        run: newman run New_Collection.postman_collection.json --reporters cli,html --reporter-html-export newman-report.html
-
-      - name: Send Slack Notification
-        if: always()
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Newman tests completed"}' ${{ secrets.SLACK_WEBHOOK_URL }}
-
+        with: 
+          node-version: "20"
+      - 
+        name: "Install newman"
+        run: "npm install -g newman"
+      - 
+        name: "Install newman reporter"
+        run: "npm install -g newman-reporter-htmlextra"
+      - 
+        name: "Run tests"
+        run: "newman run New_Collection.postman_collection.json -r htmlextra --reporter-htmlextra-export htmlreport.html --reporter-htmlextra-darkTheme  > runreport1.html"
+      
       - name: Publish report
-        uses: slackapi/slack-github-action@v1.26.0
+        uses: MeilCli/slack-upload-file@v1
         with:
-          slack_URL: ${{ secrets.SLACK_TOKEN  }}
-          file_path: "./test/htmlreport.html"
-          file_type: "html"
-          channels: "test"
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          file_path: './assignment3_204/htmlreport.html'
+          file_name: 'postmanReport.html'
+          file_type: 'html'
+          channels: 'test'
