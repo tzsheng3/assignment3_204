@@ -33,7 +33,7 @@ jobs:
           curl -X POST -H 'Content-type: application/json' --data '{"text":"Newman tests completed"}' ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Publish report
-        uses: assignment3_204@v1
+        uses: tzsheng3/assignment3_204@v1
         with:
           slack_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           file_path: "./test/htmlreport.html"
