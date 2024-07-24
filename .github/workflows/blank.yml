@@ -23,7 +23,7 @@ jobs:
       run: npm install
 
     - name: Run Newman tests
-      run: npm test
+      run: newman run your-collection-file.json -e postman_environment.json --env-var "API_KEY=${{ secrets.API_KEY }}"
 
     - name: Send Slack Notification
       if: always()
