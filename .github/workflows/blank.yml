@@ -33,9 +33,9 @@ jobs:
           curl -X POST -H 'Content-type: application/json' --data '{"text":"Newman tests completed"}' ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Publish report
-        uses: tzsheng3/slack-upload-file@v1
+        uses: slackapi/slack-github-action@v1.26.0
         with:
-          slack_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          slack_URL: ${{ secrets.SLACK_TOKEN  }}
           file_path: "./test/htmlreport.html"
           file_type: "html"
           channels: "test"
