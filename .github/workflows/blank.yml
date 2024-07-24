@@ -22,23 +22,11 @@ jobs:
       - name: "Install newman reporter"
         run: "npm install -g newman-reporter-htmlextra"
       
-      - name: "Run tests"
-        run: |
-          newman run New_Collection.postman_collection.json -r htmlextra \
-          --reporter-htmlextra-export newman-report.html \
-          --reporter-htmlextra-darkTheme
+      - name: "Run tests and generate report"
+        run: "newman run New_Collection.postman_collection.json -r htmlextra --reporter-htmlextra-export report.html --reporter-htmlextra-darkTheme"
       
-      - name: Archive Newman Report
+      - name: "Upload report to GitHub Actions"
         uses: actions/upload-artifact@v2
         with:
-          name: newman-report
-          path: ./assignment3_204/newman-report.html
-      
-      - name: Publish report to Slack
-        uses: MeilCli/slack-upload-file@v1
-        with:
-          slack_token: ${{ secrets.SLACK_TOKEN }}
-          file_path: './assignment3_204/newman-report.html'
-          file_name: 'newman-report.html'
-          file_type: 'html'
-          channels: 'test'
+          name: report
+          path: report.html
