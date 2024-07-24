@@ -23,7 +23,7 @@ jobs:
       run: npm install
 
     - name: Run Newman tests
-      run: newman run assignment3_204/New_Collection.postman_collection.json --reporters cli,html --reporter-html-export newman-report.html
+      run: newman run New_Collection.postman_collection.json --reporters cli,html --reporter-html-export newman-report.html
 
     - name: Send Slack Notification
       if: always()
