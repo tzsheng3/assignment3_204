@@ -27,7 +27,7 @@ jobs:
       - name: Test Summary
         uses: test-summary/action@v2
         with:
-          paths: "assignment3_204/assignment3_204/TEST-*.xml"
+          paths: "TEST-*.xml"
           output: test-summary.md
         if: always()
 
