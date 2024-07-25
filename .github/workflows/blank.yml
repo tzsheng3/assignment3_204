@@ -12,19 +12,24 @@ jobs:
     name: "Run tests"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
           node-version: "18"
 
-      - name: "Install newman"
-        run: "npm install -g newman"
+      - name: Install newman
+        run: npm install -g newman
 
-      - name: "Run tests"
-        run: "newman run New_Collection.postman_collection.json"
+      - name: Run tests
+        run: newman run New_Collection.postman_collection.json
 
-      - name: "Upload test report"
+      - name: List directory contents
+        run: ls -R assignment3_204
+
+      - name: Upload test report
         uses: actions/upload-artifact@v4
         with:
           name: testrun-report
