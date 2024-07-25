@@ -21,17 +21,17 @@ jobs:
       - name: Run tests
         run: newman run New_Collection.postman_collection.json
       - name: List directory contents
-        run: ls -R ./assignment3_204 || echo "Directory ./assignment3_204 does not exist"
+        run: ls -R . || echo "Current directory is empty"
       - name: List files to be uploaded
-        run: find assignment3_204 -type f
+        run: find . -type f
       - name: Upload test report
         uses: actions/upload-artifact@v4
         with:
           name: testrun-report
           path: |
-            assignment3_204/**/*.json
-            assignment3_204/**/*.xml
-            assignment3_204/**/*.html
+            ./**/*.json
+            ./**/*.xml
+            ./**/*.html
           retention-days: 30
           if-no-files-found: warn
           compression-level: 6
