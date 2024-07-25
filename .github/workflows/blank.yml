@@ -45,3 +45,19 @@ jobs:
           SLACK_USERNAME: zi sheng teh
           SLACK_TITLE: assignment3
           SLACK_MESSAGE: "New change:rocket:"
+
+      - name: Upload Logs
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: ${{ runner.temp }}/_github_workflow/*.log
+
+      - name: Slack Notification on Failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          SLACK_USERNAME: zi sheng teh
+          SLACK_TITLE: assignment3
+          SLACK_MESSAGE: "Workflow failed. Check the logs for details :warning:"
