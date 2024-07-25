@@ -24,14 +24,6 @@ jobs:
       - name: "Run tests"
         run: "newman run New_Collection.postman_collection.json"
 
-      - name: Test Summary
-        uses: test-summary/action@v2
-        with:
-          paths: "TEST01.xml"
-          
-          output: test-summary.md
-        if: always()
-
       - name: "Upload test report"
         uses: actions/upload-artifact@v4
         with:
