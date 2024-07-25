@@ -25,10 +25,12 @@ jobs:
       - name: List files to be uploaded
         run: find . -type f
       - name: Upload test report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v2
         with:
           name: testrun-report
           path: |
+            ./TEST.xml
+            ./TEST01.xml
             ./**/*.json
             ./**/*.xml
             ./**/*.html
