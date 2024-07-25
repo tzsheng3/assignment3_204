@@ -41,7 +41,7 @@ jobs:
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_USERNAME: zi sheng teh
           SLACK_TITLE: assignment3
           SLACK_MESSAGE: "New change:rocket:"
