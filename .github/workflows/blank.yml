@@ -1,8 +1,6 @@
 name: Newman API Tests
-
 on:
   workflow_dispatch:
-
 jobs:
   test:
     defaults:
@@ -14,31 +12,30 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: "18"
-
       - name: Install newman
         run: npm install -g newman
-
       - name: Run tests
         run: newman run New_Collection.postman_collection.json
-
       - name: List directory contents
         run: ls -R ./assignment3_204 || echo "Directory ./assignment3_204 does not exist"
-
+      - name: List files to be uploaded
+        run: find assignment3_204 -type f
       - name: Upload test report
         uses: actions/upload-artifact@v4
         with:
           name: testrun-report
-          path: assignment3_204/
+          path: |
+            assignment3_204/**/*.json
+            assignment3_204/**/*.xml
+            assignment3_204/**/*.html
           retention-days: 30
           if-no-files-found: warn
           compression-level: 6
           overwrite: false
-
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
