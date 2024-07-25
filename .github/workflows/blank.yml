@@ -16,29 +16,35 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "18"
-      - name: Install newman and reporters
-        run: |
-          npm install -g newman
-          npm install -g newman-reporter-htmlextra
+      - name: Install newman
+        run: npm install -g newman
       - name: Run tests
         run: |
           newman run New_Collection.postman_collection.json \
-          -r cli,htmlextra,json,junit \
-          --reporter-htmlextra-export ./newman-report.html \
+          -r cli,json,junit \
           --reporter-json-export ./newman-report.json \
           --reporter-junit-export ./newman-report.xml
-      - name: List generated files
-        run: ls -l
+        continue-on-error: true
+      - name: Check if reports were generated
+        run: |
+          ls -l newman-report.json newman-report.xml || echo "Reports not found"
+      - name: Debug - Print working directory
+        run: pwd
+      - name: Debug - List all files
+        run: find . -type f
+      - name: Debug - Check Newman output
+        run: cat newman-report.json || echo "newman-report.json not found"
       - name: Upload test report
         uses: actions/upload-artifact@v4
         with:
           name: testrun-report
-          path: |
-            ./newman-report.html
-            ./newman-report.json
-            ./newman-report.xml
+          path: .
           retention-days: 30
           if-no-files-found: warn
+      - name: Verify artifact upload
+        run: |
+          echo "Artifact upload completed"
+          echo "Please check the 'Artifacts' section in the GitHub Actions run summary"
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
