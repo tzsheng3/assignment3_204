@@ -26,8 +26,11 @@ jobs:
       - name: Run tests
         run: newman run New_Collection.postman_collection.json
 
-      - name: List directory contents
-        run: ls -R assignment3_204
+      - name: List root directory
+        run: ls -R
+
+      - name: List contents of working directory
+        run: ls -R ./assignment3_204 || echo "Directory ./assignment3_204 does not exist"
 
       - name: Upload test report
         uses: actions/upload-artifact@v4
