@@ -16,28 +16,29 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "18"
-      - name: Install newman
-        run: npm install -g newman
+      - name: Install newman and reporters
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
       - name: Run tests
-        run: newman run New_Collection.postman_collection.json
-      - name: List directory contents
-        run: ls -R . || echo "Current directory is empty"
-      - name: List files to be uploaded
-        run: find . -type f
+        run: |
+          newman run New_Collection.postman_collection.json \
+          -r cli,htmlextra,json,junit \
+          --reporter-htmlextra-export ./newman-report.html \
+          --reporter-json-export ./newman-report.json \
+          --reporter-junit-export ./newman-report.xml
+      - name: List generated files
+        run: ls -l
       - name: Upload test report
         uses: actions/upload-artifact@v4
         with:
           name: testrun-report
           path: |
-            ./TEST.xml
-            ./TEST01.xml
-            ./**/*.json
-            ./**/*.xml
-            ./**/*.html
+            ./newman-report.html
+            ./newman-report.json
+            ./newman-report.xml
           retention-days: 30
           if-no-files-found: warn
-          compression-level: 6
-          overwrite: false
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
