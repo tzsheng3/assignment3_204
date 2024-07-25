@@ -35,7 +35,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: testrun-report
-          path: assignment3_204/assignment3_204
           retention-days: 30
 
       - name: Slack Notification
